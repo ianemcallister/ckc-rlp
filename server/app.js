@@ -44,6 +44,14 @@ serverApp.use('/', function(req, res, next) {
 	next();
 });
 
+//	ROUTING
+/*
+*	To clena up the code we've moved it to externl files
+*/
+//	WEBHOOK ROUTES
+var webhookRoutes = require('./routes/webhooks');
+serverApp.use('/webhook', webhookRoutes);
+
 /*
 *	Opening Up the server
 */
