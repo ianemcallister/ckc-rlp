@@ -1,0 +1,19 @@
+{
+  "name": "ckc-rlp",
+  "version": "1.0.0",
+  "description": "rewards, loyalty program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianemcallister/ckc-rlp.git"
+  },
+  "author": "Ian McAllister",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ianemcallister/ckc-rlp/issues"
+  },
+  "homepage": "https://github.com/ianemcallister/ckc-rlp#readme"
+}
