@@ -7,6 +7,16 @@ module.exports = (function() {
     //  DEFINE DEPENDENCIES
     var webhookRoutes = require('express').Router();
 
+    //  GET: /test
+    webhookRoutes.get('/test', function(req, res) {
+
+        //  NOTIFY PROGRESS
+        console.log('received this test webhook');
+        console.log(req.body);
+
+        res.sendStatus(200);
+    });
+
    //	POST: /sqrwebhook
    webhookRoutes.post('/square', function(req, res) {
         
