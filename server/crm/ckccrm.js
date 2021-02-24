@@ -12,69 +12,130 @@ var ckccrm = {
     EnrollReferalCustomer: EnrollReferalCustomer,
     NotifyNewReferalCustomer: NotifyNewReferalCustomer,
     QueryPhoneRecord: QueryPhoneRecord,
-    CreateCustomerReferalCode: CreateCustomerReferalCode,
+    xCreateCustomerReferalCode: CreateCustomerReferalCode,
     GenerateCustomerReferalCode: GenerateCustomerReferalCode,
-    CreateShopifyPriceRule: CreateShopifyPriceRule,
-    CreateShopifyDiscountCode: CreateShopifyDiscountCode,
-    UpdateReferalCodes: UpdateReferalCodes,
+    xCreateShopifyPriceRule: CreateShopifyPriceRule,
+    xCreateShopifyDiscountCode: CreateShopifyDiscountCode,
+    xUpdateReferalCodes: UpdateReferalCodes,
     test: test
 };
 
 //  EnrollReferalCustomer
-function EnrollReferalCustomer(squareLoyaltyActId, customerPhone) {
+async function EnrollReferalCustomer(squareLoyaltyActId, customerPhone) {
     //  DEFINE LOCAL VARIABLES
-    var CustomerReferalCode = "";
 
     //  RETURN 
-    return CustomerReferalCode;
-};
-
-//  NotifyNewReferalCustomer
-function NotifyNewReferalCustomer(CustomerReferalCode, customerPhone) {
-    return true;
+    return await NotifyNewReferalCustomer(
+        customerPhone, 
+        await CreateCustomerReferalCode(
+            await QueryPhoneRecord(customerPhone)
+        )
+    );
 };
 
 //  QueryPhoneRecord
-function QueryPhoneRecord(customerPhone) {
+async function QueryPhoneRecord(customerPhone) {
     //  DEFINE LOCAL VARIABLES
     var ckcCustomerId = "";
+
+    ckcCustomerId = customerPhone;
 
     //  RETURN
     return ckcCustomerId;
 };
 
 //  CreateCustomerReferalCode
-function CreateCustomerReferalCode(ckcCustomerId) {
-    var CustomerReferalCode = "";
+async function CreateCustomerReferalCode(ckcCustomerId) {
+    //  DEFINE LOCAL VARIABLES
+    var CustomerReferalCode = GenerateCustomerReferalCode(8);
+    var PriceRuleId = await CreateShopifyPriceRule();
+    var DiscountCodeId = await CreateShopifyDiscountCode(PriceRuleId, CustomerReferalCode);
+    
+    //  NOTIFY PROGESS
+    console.log('CreateCustomerReferalCode');
+    console.log({
+        'CustomerReferalCode': CustomerReferalCode,
+        'PriceRuleId': PriceRuleId,
+        'DiscountCodeId': DiscountCodeId,
+        'ckcCustomerId': ckcCustomerId
+    })
 
-    return CustomerReferalCode
+    //  RETURN
+    return await UpdateReferalCodes(PriceRuleId, DiscountCodeId, CustomerReferalCode);
 };
 
-//  GenerateCustomerReferalCode
-function GenerateCustomerReferalCode() {
-    var CustomerReferalCode = "";
+//  NotifyNewReferalCustomer
+async function NotifyNewReferalCustomer(customerPhone, CustomerReferalCode) {
+    //  DEFINE LOCAL VARIABLES
+    
+    //  NOTIFY PROGESS
+    console.log('NotifyNewReferalCustomer');
+    console.log({
+        'customerPhone': customerPhone,
+        'CustomerReferalCode': CustomerReferalCode
+    })
 
+    //  RETURN
+    return true;
+};
+
+
+
+//  GenerateCustomerReferalCode
+function GenerateCustomerReferalCode(length) {
+    //  DEFINE LOCAL VARIABLES
+    var CustomerReferalCode = "";
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        CustomerReferalCode += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    //  RETURN
     return CustomerReferalCode;
 };
 
 //  CreateShopifyPriceRule
-function CreateShopifyPriceRule() {
-    var PriceRuleId = "";
+async function CreateShopifyPriceRule() {
+    //  DEFINE LOCAL VARIABLES
+    var PriceRuleId = "22";
 
+    //  NOTIFY PROGESS
+    console.log('CreateShopifyPriceRule', PriceRuleId);
+
+    //  RETURN
     return PriceRuleId;
 };
 
 //  CreateShopifyDiscountCode
-function CreateShopifyDiscountCode(PRiceRuleId, CustomerReferalCode) {
-    var DiscountCodeId = "";
+async function CreateShopifyDiscountCode(PRiceRuleId, CustomerReferalCode) {
+    //  DEFINE LOAL VARIABLES
+    var DiscountCodeId = "11";
 
+    //  NOTIFY PROGRESS
+    console.log('CreateShopifyDiscountCode');
+    console.log({
+        "PRiceRuleId": PRiceRuleId,
+        'CustomerReferalCode': CustomerReferalCode
+    })
+
+    //  RETURN
     return DiscountCodeId;
 };
 
 //  UpdateReferalCodes
-function UpdateReferalCodes(PriceRuleId, DiscountCodeId) { 
+async function UpdateReferalCodes(PriceRuleId, DiscountCodeId, CustomerReferalCode) { 
+    //  RETURN
 
-    return true;
+    //  NOTIFY PROGRESS
+    console.log('UpdateReferalCodes');
+    console.log({
+        "PRiceRuleId": PriceRuleId,
+        'DiscountCodeId': DiscountCodeId,
+        'CustomerReferalCode': CustomerReferalCode
+    })
+
+    return CustomerReferalCode;
 }
 
 //  TEST

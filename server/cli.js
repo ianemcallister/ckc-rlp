@@ -9,9 +9,16 @@ console.log('running cli');
 
 //  DEFINE DEPENDENCIES
 var ckccrm = require('./crm/ckccrm.js');
-var square = require('./square/sqr.js');
-var shopify = require('./shopify/shopify.js');
+//var square = require('./square/sqr.js');
+//var shopify = require('./shopify/shopify.js');
 
 //  RUN
-//ckccrm.test();
+async function result() {
+    var result = await ckccrm.EnrollReferalCustomer('aoshdgES98hvs', '+15551112222'); 
+    console.log(result);
+}
+
+
+result();
+
 //square.listLocations();
