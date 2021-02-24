@@ -15,10 +15,11 @@ const client = new Client({
     accessToken: process.env.CKC_SQR_APP_TKN,
   });
 
-const locationsApi = client.locationsApi;
 
 //  listLocations
 async function listLocations() {
+  //  DEFINE LOCAL VARIABLES
+  const locationsApi = client.locationsApi;
   
   try {
     const { result, ...httpResponse } = await locationsApi.listLocations();
