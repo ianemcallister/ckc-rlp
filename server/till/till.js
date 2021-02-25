@@ -10,6 +10,7 @@ var url = require("url");
 
 //  DEFINE MODULE
 var tillMod = {
+    dialogue: dialogue,
     alertTest: alertTest,
     test: test
 };
@@ -23,11 +24,18 @@ if(TILL_URL.query != null) {
   TILL_PATH += "?"+TILL_URL.query;
 };
 
+//  DIALOGUE METHOD
+async function dialogue(phoneNumber, messages) {
+  //  DEFINE LOCAL VARIABLES
+  //  RETURN
+  return 1;
+};
+
 //  ALERT TEST
-async function alertTest() {
+async function alertTest(phoneNumbers, messages) {
     request.createClient(TILL_BASE).post(TILL_PATH, {
-        "phone": ["15034513575"],
-        "text": "Hello from 29 Kettle!"
+        "phone": phoneNumbers,
+        "text": messages.one
       }, function(err, res, body) {
         return console.log(res.statusCode);
       });

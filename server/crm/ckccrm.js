@@ -7,6 +7,7 @@
 
 // DEFINE DEPENDENCIES
 var shopify = require('../shopify/shopify.js');
+var till = require('../till/till.js');
 
 //  DEFINE MODULE
 var ckccrm = {
@@ -59,27 +60,30 @@ async function CreateCustomerReferalCode(ckcCustomerId) {
 
     //  RETURN
     return await UpdateReferalCodes(
-        CustomerReferalCode,
         await CreateShopifyDiscountCode(CustomerReferalCode)
     );
 };
 
 //  NotifyNewReferalCustomer
-async function NotifyNewReferalCustomer(customerPhone, CustomerReferalUrl) {
+async function NotifyNewReferalCustomer(customerPhone, CustomerReferalCodeUrl) {
     //  DEFINE LOCAL VARIABLES
-    var message = "Hello from 29 Kettle!" + "\r\n";
-    message += "We're so excited to welcome you to our loyalty and referal program." + "\r\n";
-    message += "Earn $5 everytime someone uses your personalized link to make their first purchase:" + "\r\n\r\n";
-    message += CustomerReferalUrl + "\r\n\r\n";
-    message += "Thanks for helping us share the magic of Oregon glazed nuts!"
+    var messages = { one: "", two: "" };
+    messages.one += 'Welcome to SMS messages from 29 Kettle - Reply w/ "HELP" for more or "END" to unsubscribe from receiving messages, std rates apply. ' + "\r\n";
+    messages.one += "Earn $5 off your next purchase everytime someone uses your link to make their first purchase at: ";
+    messages.one += CustomerReferalCodeUrl + " ";
+    
 
     //  NOTIFY PROGESS
     console.log('NotifyNewReferalCustomer');
-    console.log(customerPhone);
+    //console.log(customerPhone, CustomerReferalCodeUrl);
+    //console.log(messages);
     /*console.log({
         'customerPhone': customerPhone,
         'CustomerReferalCode': CustomerReferalCode
     })*/
+
+    //  send SMS
+    till.alertTest([customerPhone], messages)
 
     //  RETURN
     return true;
@@ -105,25 +109,29 @@ function GenerateCustomerReferalCode(length) {
 async function CreateShopifyDiscountCode(CustomerReferalCode) {
     //  DEFINE LOCAL VARIABLES
     const discountCodeObject = await shopify.discountCodes.create(CustomerReferalCode);
+    const reDirectId = await shopify.redirect.create(CustomerReferalCode);
+    const url = "https://www.29kettle.com/" + CustomerReferalCode;
+
     //  NOTIFY PROGESS
     //console.log('CreateShopifyDiscountCode', discountCodeObject);
 
     //  RETURN
-    return discountCodeObject.id;
+    return { id: discountCodeObject.id, url: url, code: CustomerReferalCode }
 };
 
 //  UpdateReferalCodes
-async function UpdateReferalCodes(CustomerReferalCode, DiscountCodeId) { 
+async function UpdateReferalCodes(DiscountCodeObject) { 
     
     //  NOTIFY PROGRESS
     console.log('UpdateReferalCodes');
     console.log({
-        'DiscountCodeId': DiscountCodeId,
-        'CustomerReferalCode': CustomerReferalCode
+        'DiscountCodeId': DiscountCodeObject.id,
+        'DiscountCodeUrl': DiscountCodeObject.url,
+        'CustomerReferalCode': DiscountCodeObject.code
     })
 
     //  RETURN
-    return CustomerReferalCode;
+    return DiscountCodeObject.url;
 }
 
 //  TEST

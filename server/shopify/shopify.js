@@ -15,6 +15,9 @@ var shopifyMod = {
   },
   discountCodes: {
     create: POSTdiscountCode
+  },
+  redirect: {
+    create: POSTnewRedirect
   }
 };
 
@@ -28,6 +31,22 @@ var shopify = new Shopify(shopifyCredentials);
 
 //  NOTIFY PROGRESS
 //console.log(shopifyCredentials);
+
+//  CREATE NEW REDIRECT
+async function POSTnewRedirect(CustomerReferalCode) {
+  //  define local variables
+  var params = {
+    "path": "/" + CustomerReferalCode,
+    "target": "/collections/tubes/products/mixed-gourmet-glazed-nuts-tube"
+  };
+
+  try {
+    return await shopify.redirect.create(params);
+  } catch (error) {
+    console.log(error);
+  }
+
+};
 
 //  CREATE DISCOUNT CODE
 async function POSTdiscountCode(CustomerReferalCode) {
