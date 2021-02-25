@@ -49,3 +49,6 @@ async function test() {
         return console.log(res.statusCode);
       });
 };
+
+//  EXPORT MODUEL
+module.exports = tillMod;
