@@ -23,14 +23,15 @@ var ckccrm = {
 };
 
 //  EnrollReferalCustomer
-async function EnrollReferalCustomer(squareLoyaltyActId, customerPhone) {
+async function EnrollReferalCustomer(squareLoyaltyActId, customerPhones) {
     //  DEFINE LOCAL VARIABLES
+    console.log('got this loyatly number', squareLoyaltyActId);
 
     //  RETURN 
     return await NotifyNewReferalCustomer(
-        customerPhone, 
+        customerPhones, 
         await CreateCustomerReferalCode(
-            await QueryPhoneRecord(customerPhone)
+            await QueryPhoneRecord(customerPhones)
         )
     );
 };
@@ -38,7 +39,7 @@ async function EnrollReferalCustomer(squareLoyaltyActId, customerPhone) {
 //  QueryPhoneRecord
 async function QueryPhoneRecord(customerPhone) {
     //  DEFINE LOCAL VARIABLES
-    var ckcCustomerId = "";
+    var ckcCustomerId = [];
 
     ckcCustomerId = customerPhone;
 
@@ -66,12 +67,12 @@ async function CreateCustomerReferalCode(ckcCustomerId) {
 };
 
 //  NotifyNewReferalCustomer
-async function NotifyNewReferalCustomer(customerPhone, CustomerReferalCodeUrl) {
+async function NotifyNewReferalCustomer(customerPhones, CustomerReferalCodeUrl) {
     //  DEFINE LOCAL VARIABLES
-    var messages = { one: "", two: "" };
-    messages.one += 'Welcome to SMS messages from 29 Kettle - Reply w/ "HELP" for more or "END" to unsubscribe from receiving messages, std rates apply. ' + "\r\n";
-    messages.one += "Earn $5 off your next purchase everytime someone uses your link to make their first purchase at: ";
-    messages.one += CustomerReferalCodeUrl + " ";
+    var message = "";
+    message += 'Welcome to SMS messages from 29 Kettle - Reply w/ "HELP" for more or "END" to unsubscribe from receiving messages, std rates apply. ' + "\r\n";
+    message += "Earn $5 off your next purchase everytime someone uses your link to make their first purchase at: ";
+    message += CustomerReferalCodeUrl + " ";
     
 
     //  NOTIFY PROGESS
@@ -84,7 +85,7 @@ async function NotifyNewReferalCustomer(customerPhone, CustomerReferalCodeUrl) {
     })*/
 
     //  send SMS
-    till.alertTest([customerPhone], messages)
+    till.alertTest(customerPhones, message)
 
     //  RETURN
     return true;
@@ -145,9 +146,14 @@ function extractPhone(squareLoyaltyObject) {
     //  DEFINE LOCAL VARIABLES
     var customerPhones = [];
 
+    
+
     squareLoyaltyObject.forEach(function(mapping) {
         if(mapping.type == "PHONE") { customerPhones.push(mapping.value)}
     });
+
+    //  NOTIFY PROGRESS
+    console.log('extracted the following phoens', customerPhones);
 
     //  RETURN
     return customerPhones
