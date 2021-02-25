@@ -18,6 +18,7 @@ var ckccrm = {
     GenerateCustomerReferalCode: GenerateCustomerReferalCode,
     CreateShopifyDiscountCode: CreateShopifyDiscountCode,
     UpdateReferalCodes: UpdateReferalCodes,
+    extractPhone: extractPhone,
     test: test
 };
 
@@ -138,6 +139,19 @@ async function UpdateReferalCodes(DiscountCodeObject) {
     //  RETURN
     return DiscountCodeObject.url;
 }
+
+//  EXTRACT PHONE
+function extractPhone(squareLoyaltyObject) {
+    //  DEFINE LOCAL VARIABLES
+    var customerPhones = [];
+
+    squareLoyaltyObject.forEach(function(mapping) {
+        if(mapping.type == "PHONE") { customerPhones.push(mapping.value)}
+    });
+
+    //  RETURN
+    return customerPhones
+};
 
 //  TEST
 function test() {

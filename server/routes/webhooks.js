@@ -24,10 +24,20 @@ module.exports = (function() {
         //advise of the post body
         console.log(req.body);
 
+
+
         try {
-            var result = await ckccrm.EnrollReferalCustomer('aoshdgES98hvs', '+15034513575'); 
-            console.log(result);
-            res.sendStatus(200);
+            
+            // work through various options
+            if(req.body.type == "loyalty.account.created") {
+                var customerPhones = ckccrm.extractPhone(req.body.data.object.loyalty_account.mappings);
+                customerPhones.push('+15034513575');    //  REMOVE THIS LATER
+                var result = await ckccrm.EnrollReferalCustomer(req.body.data.id, customerPhones); 
+                console.log(result);
+                res.sendStatus(200);
+            }
+            
+
         } catch (error) {
             console.log(error);
         } 
