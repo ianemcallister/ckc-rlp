@@ -4,7 +4,7 @@
   "description": "rewards, loyalty program",
   "main": "index.js",
   "scripts": {
-    "start": "node server/cli",
+    "start": "node server/serverapp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

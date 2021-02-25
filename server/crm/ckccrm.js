@@ -65,11 +65,17 @@ async function CreateCustomerReferalCode(ckcCustomerId) {
 };
 
 //  NotifyNewReferalCustomer
-async function NotifyNewReferalCustomer(customerPhone, CustomerReferalCode) {
+async function NotifyNewReferalCustomer(customerPhone, CustomerReferalUrl) {
     //  DEFINE LOCAL VARIABLES
-    
+    var message = "Hello from 29 Kettle!" + "\r\n";
+    message += "We're so excited to welcome you to our loyalty and referal program." + "\r\n";
+    message += "Earn $5 everytime someone uses your personalized link to make their first purchase:" + "\r\n\r\n";
+    message += CustomerReferalUrl + "\r\n\r\n";
+    message += "Thanks for helping us share the magic of Oregon glazed nuts!"
+
     //  NOTIFY PROGESS
     console.log('NotifyNewReferalCustomer');
+    console.log(customerPhone);
     /*console.log({
         'customerPhone': customerPhone,
         'CustomerReferalCode': CustomerReferalCode
