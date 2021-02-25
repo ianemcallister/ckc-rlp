@@ -6,6 +6,7 @@
 
 
 // DEFINE DEPENDENCIES
+var shopify = require('../shopify/shopify.js');
 
 //  DEFINE MODULE
 var ckccrm = {
@@ -14,7 +15,7 @@ var ckccrm = {
     QueryPhoneRecord: QueryPhoneRecord,
     CreateCustomerReferalCode: CreateCustomerReferalCode,
     GenerateCustomerReferalCode: GenerateCustomerReferalCode,
-    CreateShopifyPriceRule: CreateShopifyPriceRule,
+    CreateShopifyDiscountCode: CreateShopifyDiscountCode,
     UpdateReferalCodes: UpdateReferalCodes,
     test: test
 };
@@ -47,19 +48,20 @@ async function QueryPhoneRecord(customerPhone) {
 async function CreateCustomerReferalCode(ckcCustomerId) {
     //  DEFINE LOCAL VARIABLES
     var CustomerReferalCode = GenerateCustomerReferalCode(8);
-    var PriceRuleId = await CreateShopifyPriceRule(CustomerReferalCode);
     
     //  NOTIFY PROGESS
     console.log('CreateCustomerReferalCode');
     /*console.log({
         'CustomerReferalCode': CustomerReferalCode,
-        'PriceRuleId': PriceRuleId,
         'DiscountCodeId': DiscountCodeId,
         'ckcCustomerId': ckcCustomerId
     })*/
 
     //  RETURN
-    return await UpdateReferalCodes(PriceRuleId, CustomerReferalCode);
+    return await UpdateReferalCodes(
+        CustomerReferalCode,
+        await CreateShopifyDiscountCode(CustomerReferalCode)
+    );
 };
 
 //  NotifyNewReferalCustomer
@@ -93,40 +95,26 @@ function GenerateCustomerReferalCode(length) {
     return CustomerReferalCode;
 };
 
-//  CreateShopifyPriceRule
-async function CreateShopifyPriceRule(CustomerReferalCode) {
+//  CreateShopifyDiscountCode
+async function CreateShopifyDiscountCode(CustomerReferalCode) {
     //  DEFINE LOCAL VARIABLES
-    var PriceRuleId = "";
-    var PriceRule = {
-        "price_rule": {
-          "title": CustomerReferalCode,
-          "target_type": "line_item",
-          "target_selection": "all",
-          "allocation_method": "across",
-          "value_type": "fixed_amount",
-          "value": "-10.0",
-          "customer_selection": "all",
-          "starts_at": "2017-01-19T17:59:10Z"
-        }
-    }
-
+    const discountCodeObject = await shopify.discountCodes.create(CustomerReferalCode);
     //  NOTIFY PROGESS
-    console.log('CreateShopifyPriceRule', PriceRuleId);
+    console.log('CreateShopifyDiscountCode', discountCodeObject);
 
     //  RETURN
-    return PriceRuleId;
+    return discountCodeObject.id;
 };
 
 //  UpdateReferalCodes
-async function UpdateReferalCodes(PriceRuleId, DiscountCodeId, CustomerReferalCode) { 
+async function UpdateReferalCodes(CustomerReferalCode, DiscountCodeId) { 
     
     //  NOTIFY PROGRESS
     console.log('UpdateReferalCodes');
-    /*console.log({
-        "PRiceRuleId": PriceRuleId,
+    console.log({
         'DiscountCodeId': DiscountCodeId,
         'CustomerReferalCode': CustomerReferalCode
-    })*/
+    })
 
     //  RETURN
     return CustomerReferalCode;

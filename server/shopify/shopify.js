@@ -33,16 +33,16 @@ var shopify = new Shopify(shopifyCredentials);
 async function POSTdiscountCode(CustomerReferalCode) {
   //  DEFINE LOCAL VARIABLES
   let priceRuleId = 913999855784;
+  let discountCodeId = '';
   let params = { "code": CustomerReferalCode };
 
   try {
-    await shopify.discountCode.create(priceRuleId, params);
+    return await shopify.discountCode.create(priceRuleId, params);
   } catch (error) {
     console.log(error);
   }
 
   //  RETURN CALL
-  return;
 };
 
 //  GET PRICES RULES LIST
