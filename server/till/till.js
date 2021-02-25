@@ -32,10 +32,10 @@ async function dialogue(phoneNumber, messages) {
 };
 
 //  ALERT TEST
-async function alertTest(phoneNumbers, messages) {
+async function alertTest(phoneNumbers, message) {
     request.createClient(TILL_BASE).post(TILL_PATH, {
         "phone": phoneNumbers,
-        "text": messages.one
+        "text": message
       }, function(err, res, body) {
         return console.log(res.statusCode);
       });
