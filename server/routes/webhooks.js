@@ -6,7 +6,7 @@ module.exports = (function() {
     'use strict';
     //  DEFINE DEPENDENCIES
     var webhookRoutes = require('express').Router();
-    var ckccrm = require('./crm/ckccrm.js');
+    var ckccrm = require('../crm/ckccrm.js');
 
     //  GET: /test
     webhookRoutes.get('/test', function(req, res) {
