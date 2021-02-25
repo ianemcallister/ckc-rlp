@@ -116,7 +116,12 @@ async function CreateShopifyDiscountCode(CustomerReferalCode) {
     //console.log('CreateShopifyDiscountCode', discountCodeObject);
 
     //  RETURN
-    return { id: discountCodeObject.id, url: url, code: CustomerReferalCode }
+    return { 
+        id: discountCodeObject.id, 
+        url: url, 
+        code: CustomerReferalCode, 
+        reDirId: reDirectId 
+    }
 };
 
 //  UpdateReferalCodes

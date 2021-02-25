@@ -4,7 +4,7 @@
 *	This module runns the express server
 */
 
-console.log('runnign the server');
+console.log('running the server');
 
 //declare all dependencies
 var express		= require('express');
