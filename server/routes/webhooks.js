@@ -19,7 +19,7 @@ module.exports = (function() {
     });
 
     //	POST: /sqrwebhook
-    webhookRoutes.post('/square', function(req, res) {
+    webhookRoutes.post('/square', async function(req, res) {
         
         //advise of the post body
         console.log(req.body);
