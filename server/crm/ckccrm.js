@@ -100,7 +100,7 @@ async function CreateShopifyDiscountCode(CustomerReferalCode) {
     //  DEFINE LOCAL VARIABLES
     const discountCodeObject = await shopify.discountCodes.create(CustomerReferalCode);
     //  NOTIFY PROGESS
-    console.log('CreateShopifyDiscountCode', discountCodeObject);
+    //console.log('CreateShopifyDiscountCode', discountCodeObject);
 
     //  RETURN
     return discountCodeObject.id;
