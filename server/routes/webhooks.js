@@ -47,7 +47,7 @@ module.exports = (function() {
         var entries = req.body.entry;
 
         //  NOTIFY PROGRESS
-        console.log(req.body);
+        console.log(req.body.entry[0].changes);
 
         //  EVALUATE
         try {
