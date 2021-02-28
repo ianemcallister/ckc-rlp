@@ -8,20 +8,22 @@
 console.log('running cli');
 
 //  DEFINE DEPENDENCIES
-var ckccrm = require('./crm/ckccrm.js');
+//var ckccrm = require('./crm/ckccrm.js');
 //var square = require('./square/sqr.js');
 //var shopify = require('./shopify/shopify.js');
 //var till = require('./till/till.js');
+var firebase = require('./firebase/firebase.js');
 
 //  RUN
+firebase.test();
 //till.alertTest();
 //shopify.discountCodes.create('testing12345');
-async function result() {
+/*async function result() {
     var result = await ckccrm.EnrollReferalCustomer('aoshdgES98hvs', '+15551112222'); 
     console.log(result);
-}
+}*/
 
 
-result();
+//result();
 
 //square.listLocations();
