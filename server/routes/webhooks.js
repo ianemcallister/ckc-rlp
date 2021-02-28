@@ -18,6 +18,16 @@ module.exports = (function() {
         res.sendStatus(200);
     });
 
+    //  GET: /facebook webhooks
+    webhookRoutes.get('/facebook', async function(req, res) {
+
+        //  NOTIFY PROGRESS
+        console.log(req.body);
+
+        res.send(req.body["hub.challenge"]);
+    });
+
+
     //	POST: /sqrwebhook
     webhookRoutes.post('/square', async function(req, res) {
         
