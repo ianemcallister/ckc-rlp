@@ -44,21 +44,50 @@ module.exports = (function() {
     */
     webhookRoutes.post('/facebook', async function(req, res) {
         //  DEFINE LOCAL VARIABLES
-        var field = req.body.field;
+        var entries = req.body.entry;
 
         //  NOTIFY PROGRESS
         console.log(req.body);
 
         //  EVALUATE
         try {
+
+            //  ITERATE OVER ENTRIES
+            entry.forEach(function(entry){
+                var changes = entry.changes;
+
+                //  ITERATE OVER CHANGES
+                changes.forEach(function(change) {
+                    var field = change.field;
+                    var value = change.value;
+
+                    //  PROCESS THE APPROPARTE FIELD
+                    if(field == "mention") {
+                        /*
+                        *   PROCESSING THE MENTION OBJECT
+                        *   @post_id (param) "44444444_444444444",
+                        *   @sender_name (param) "Example Name",
+                        *   @item (param) "post",
+                        *   @sender_id (param) "44444444",
+                        *   @verb 44444444 "add"
+                        */  
+
+                        console.log('respoing to ', value.sender_name);
+                        
+                    }
+
+                });
+            });
             if(field == "mention") {
                 console.log('responding to ', req.body.value.sender_id);
-                res.send(200);
+                
             }
             
         } catch (error) {
             
         };
+
+        res.send(200);
 
     });
 
