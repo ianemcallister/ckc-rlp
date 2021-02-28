@@ -20,11 +20,13 @@ module.exports = (function() {
 
     //  GET: /facebook webhooks
     webhookRoutes.get('/facebook', async function(req, res) {
+        //  DEFINE LOCAL VARIABLES
+        var hubChallenge = req.query['hub.challenge'];
 
         //  NOTIFY PROGRESS
-        console.log(req.body);
+        console.log(req.query);
 
-        res.send(req.body["hub.challenge"]);
+        res.send(hubChallenge);
     });
 
 
