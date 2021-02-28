@@ -87,7 +87,7 @@ module.exports = (function() {
             
         };
 
-        res.send(200);
+        res.sendStatus(200);
 
     });
 
@@ -108,6 +108,8 @@ module.exports = (function() {
                 customerPhones.push('+15034513575');    //  REMOVE THIS LATER
                 var result = await ckccrm.EnrollReferalCustomer(req.body.data.id, customerPhones); 
                 console.log(result);
+                res.sendStatus(200);
+            } else {
                 res.sendStatus(200);
             }
             
