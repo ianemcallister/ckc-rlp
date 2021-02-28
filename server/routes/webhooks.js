@@ -61,6 +61,9 @@ module.exports = (function() {
                     var field = change.field;
                     var value = change.value;
 
+                    //  NOTIFY PROGRES
+                    console.log('found this field ', field);
+
                     //  PROCESS THE APPROPARTE FIELD
                     if(field == "mention") {
                         /*
@@ -72,16 +75,13 @@ module.exports = (function() {
                         *   @verb 44444444 "add"
                         */  
 
-                        console.log('respoing to ', value.sender_name);
+                        console.log('responding to ', value.sender_name);
                         
                     }
 
                 });
             });
-            if(field == "mention") {
-                console.log('responding to ', req.body.value.sender_id);
-                
-            }
+            
             
         } catch (error) {
             
