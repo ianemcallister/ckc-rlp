@@ -8,7 +8,11 @@ module.exports = (function() {
     var webhookRoutes = require('express').Router();
     var ckccrm = require('../crm/ckccrm.js');
 
-    //  GET: /test
+    /*
+    *   GET: /test
+    *
+    *   
+    */
     webhookRoutes.get('/test', function(req, res) {
 
         //  NOTIFY PROGRESS
@@ -18,7 +22,11 @@ module.exports = (function() {
         res.sendStatus(200);
     });
 
-    //  GET: /facebook webhooks
+    /*
+    *   GET: /facebook webhooks
+    *
+    *   Facebook verication hook
+    */  
     webhookRoutes.get('/facebook', async function(req, res) {
         //  DEFINE LOCAL VARIABLES
         var hubChallenge = req.query['hub.challenge'];
@@ -27,6 +35,31 @@ module.exports = (function() {
         console.log(req.query);
 
         res.send(hubChallenge);
+    });
+
+    /*
+    *   POST: /facebook webhooks
+    *
+    *   FACEBOOK event notificaitons
+    */
+    webhookRoutes.post('/facebook', async function(req, res) {
+        //  DEFINE LOCAL VARIABLES
+        var field = req.body.field;
+
+        //  NOTIFY PROGRESS
+        console.log(req.body);
+
+        //  EVALUATE
+        try {
+            if(field == "mention") {
+                console.log('responding to ', req.body.value.sender_id);
+                res.send(200);
+            }
+            
+        } catch (error) {
+            
+        };
+
     });
 
 
