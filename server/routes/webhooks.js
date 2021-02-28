@@ -76,7 +76,12 @@ module.exports = (function() {
                         */  
 
                         console.log('responding to ', value.sender_name);
+
+                        //send error
+                        res.sendStatus(200);
                         
+                    } else {
+                        res.sendStatus(200);
                     }
 
                 });
@@ -87,7 +92,7 @@ module.exports = (function() {
             
         };
 
-        res.sendStatus(200);
+        
 
     });
 
