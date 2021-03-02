@@ -109,8 +109,8 @@ module.exports = (function() {
             
             // work through various options
             if(req.body.type == "loyalty.account.created") {
-                var customerPhones = ckccrm.extractPhone(req.body.data.object.loyalty_account.mappings);
-                customerPhones.push('+15034513575');    //  REMOVE THIS LATER
+                //var customerPhones = ckccrm.extractPhone(req.body.data.object.loyalty_account.mappings);
+                //customerPhones.push('+15034513575');    //  REMOVE THIS LATER
                 //var result = await ckccrm.EnrollReferalCustomer(req.body.data.id, customerPhones); 
                 //console.log(result);
                 console.log('enrolling this customer', customerPhones);
