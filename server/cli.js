@@ -8,22 +8,21 @@
 console.log('running cli');
 
 //  DEFINE DEPENDENCIES
-//var ckccrm = require('./crm/ckccrm.js');
+//var delightCirlce = require('./crm/delightCircle.js');
 //var square = require('./square/sqr.js');
-//var shopify = require('./shopify/shopify.js');
+var Shopify = require('./shopify/shopify.js');
 //var till = require('./till/till.js');
-var firebase = require('./firebase/firebase.js');
+//var firebase = require('./firebase/firebase.js');
 
 //  RUN
-firebase.test();
+//firebase.test();
 //till.alertTest();
 //shopify.discountCodes.create('testing12345');
-/*async function result() {
-    var result = await ckccrm.EnrollReferalCustomer('aoshdgES98hvs', '+15551112222'); 
+async function result() {
+    var result = await Shopify.CollectCustomerByPhone("");
+    //var result = await delightCirlce.CollectEnrollmentData("JDKYHBWT1D4F8MFH63DBMEN8Y4","1-212-555-4240"); 
     console.log(result);
-}*/
-
-
-//result();
+}
+result();
 
 //square.listLocations();

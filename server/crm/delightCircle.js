@@ -6,11 +6,15 @@
 
 
 // DEFINE DEPENDENCIES
-var shopify = require('../shopify/shopify.js');
-var till = require('../till/till.js');
+var fs 		= require('fs');
+var path 	= require('path');
+var Square  = require('../square/sqr.js');
+var Shopify = require('../shopify/shopify.js');
+var Till    = require('../till/till.js');
 
 //  DEFINE MODULE
-var ckccrm = {
+var delightCircle = {
+    CollectEnrollmentData: CollectEnrollmentData,
     EnrollReferalCustomer: EnrollReferalCustomer,
     NotifyNewReferalCustomer: NotifyNewReferalCustomer,
     QueryPhoneRecord: QueryPhoneRecord,
@@ -22,10 +26,31 @@ var ckccrm = {
     test: test
 };
 
+/*
+*   COLLECT ENROLLMENT DATA
+*   
+*   @param(squareLoyaltyActId)
+*   @param(customerPhones)
+*/
+async function CollectEnrollmentData(squareLoyaltyActId, customerPhones) {
+    //  DEFINE LOCAVL VARIABLES
+    var readPath = path.join(__dirname, '..', 'models/customer_schema.json');
+    var file = fs.readFileSync(readPath, 'utf8');
+    var ckcCustomer = JSON.parse(file);
+    var squareCustomer = await Square.CollectCustomerByLoyalty(squareLoyaltyActId);
+    var shopifyCustomer = await Shopify.CollectCustomerByPhone(customerPhones);
+    
+
+    //  RETURN
+    return ckcCustomer
+};
+
 //  EnrollReferalCustomer
 async function EnrollReferalCustomer(squareLoyaltyActId, customerPhones) {
     //  DEFINE LOCAL VARIABLES
     console.log('got this loyatly number', squareLoyaltyActId);
+
+    
 
     //  RETURN 
     return await NotifyNewReferalCustomer(
@@ -52,6 +77,8 @@ async function CreateCustomerReferalCode(ckcCustomerId) {
     //  DEFINE LOCAL VARIABLES
     var CustomerReferalCode = GenerateCustomerReferalCode(8);
     
+    //  CONFIRM THAT CODE HASN'T BEEN USED ALREAD
+
     //  NOTIFY PROGESS
     console.log('CreateCustomerReferalCode');
     /*console.log({
@@ -85,7 +112,7 @@ async function NotifyNewReferalCustomer(customerPhones, CustomerReferalCodeUrl) 
     })*/
 
     //  send SMS
-    till.alertTest(customerPhones, message)
+    Till.alertTest(customerPhones, message)
 
     //  RETURN
     return true;
@@ -110,8 +137,8 @@ function GenerateCustomerReferalCode(length) {
 //  CreateShopifyDiscountCode
 async function CreateShopifyDiscountCode(CustomerReferalCode) {
     //  DEFINE LOCAL VARIABLES
-    const discountCodeObject = await shopify.discountCodes.create(CustomerReferalCode);
-    const reDirectId = await shopify.redirect.create(CustomerReferalCode);
+    const discountCodeObject = await Shopify.discountCodes.create(CustomerReferalCode);
+    const reDirectId = await Shopify.redirect.create(CustomerReferalCode);
     const url = "https://www.29kettle.com/" + CustomerReferalCode;
 
     //  NOTIFY PROGESS
@@ -165,4 +192,4 @@ function test() {
 };
 
 //  RETURN THE MODULE
-module.exports = ckccrm;
+module.exports = delightCircle;

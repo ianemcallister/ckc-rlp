@@ -9,6 +9,7 @@ var Shopify = require('shopify-api-node');
 
 //  DEFINE MODULE
 var shopifyMod = {
+  CollectCustomerByPhone: CollectCustomerByPhone,
   productsList: productsList,
   priceRules: {
     list: GETpriceRulesList
@@ -27,10 +28,31 @@ var shopifyCredentials ={
   apiKey: process.env.CKC_SHOPIFY_API_KEY,
   password: process.env.CKC_SHOPIFY_API_PASS
 }
-var shopify = new Shopify(shopifyCredentials);
+var Shopify = new Shopify(shopifyCredentials);
 
 //  NOTIFY PROGRESS
 //console.log(shopifyCredentials);
+
+/*
+*   CollectCustomerByPhone
+*
+*   @param(phoneNumber)
+*   @return(customer)
+*/
+async function CollectCustomerByPhone(phoneNumber) {
+  //  DEFINE LOCAL VARIABLES
+  var query = {phone: phoneNumber}
+  
+  try {
+    var customer = await Shopify.customer.search(query)
+    console.log('got this response', customer);
+    return customer;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+  //  RETURN
+};
 
 //  CREATE NEW REDIRECT
 async function POSTnewRedirect(CustomerReferalCode) {

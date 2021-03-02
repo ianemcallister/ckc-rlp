@@ -34,6 +34,11 @@ var firebaseMod = {
 //  TEST FUNCTION
 function test() {
     console.log('this is the firebase test function');
+    var db = admin.database();
+    var ref = db.ref("Touchpoints");
+    ref.once("value", function(snapshot) {
+    console.log(snapshot.val());
+    });
 };
 
 //  EXPORT MODULE
