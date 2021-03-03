@@ -97,6 +97,9 @@ async function GetPayment(id) {
     //  DEFINE LOCAL VARIABLES
     const { result, ...httpResponse } = await paymentId.getPayment(id);
     //return result
+    //  NOTIFY PROGRESS
+    console.log('SQ: got this payment');
+    console.log(result);
     return result
   } catch (error) {
     console.log(error);
