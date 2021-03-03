@@ -66,10 +66,11 @@ async function ReadValue(path) {
 async function ReadIdByChild(collection, field, value) {
     //  NOTIFY PROGRESS
     console.log('seraching this child', collection, field, value);
-    
+
     //  DEFINE LOCAL VARIABLES
     var ref = db.ref(collection);
     ref.orderByChild(field).equalTo(value).on("value", function(snapshop) {
+        console.log('foudn this key', snapshot.key);
         return(snapshot.key);
     });
 };
