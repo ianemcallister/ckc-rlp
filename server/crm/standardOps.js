@@ -111,8 +111,13 @@ async function RecordTouchpoint(touchObject) {
     console.log('RecordTouchpoint: received this touch object');
     console.log(touchObject);
 
+    //1. collect transaction details from channel (Square, Shopify, Facebook, etc)
+    //2. New or returning customer?
+    //3. Transaction location known?
+    //4. Write Firebase Transaction (a. Touchpoint, Customer, Reporting)
+
     try {
-        return true;
+        return await Firebase.write.transaction("path", {"test": "data"});
     } catch (error) {
         console.log(error);
         return error;

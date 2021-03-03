@@ -57,7 +57,15 @@ async function push(path, data) {
 };
 
 //  TRANSACTION
-async function transaction(path, data) {};
+async function transaction(path, data) {
+
+    //  NOTIFY PRGRESS
+    console.log('the Transaction Method received:', path);
+    console.log(data);
+    
+    //  RETURN
+    return true;
+};
 
 //  TEST FUNCTION
 function test() {
