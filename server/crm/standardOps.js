@@ -53,6 +53,9 @@ function _incrimentTC(oldValue) { return (parseInt(oldValue) + 1).toString; };
 *   @RETURN({steps: [], data:{}})
 */
 async function _buildSquarePaymentWriteBatch(paymentId) {
+    //  NOTIFY PROGRESS
+    console.log('build square payment writes running');
+
     //  DEFINE LOCAL VARIABLES
     var touchpointReadPath = path.join(__dirname, '..', 'models/touchpoint_schema.json');
     var touchPointFile = fs.readFileSync(touchpointReadPath, 'utf8');
@@ -63,6 +66,9 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
     };
     var CKCcustomerId = await Firebase.read.idByChild('Customers', 'SquareCustomerID', returnObject.data.customer_id);
     
+    //  NOTIFY PROGESS
+    console.log('customer Id', CKCcustomerId);
+
     //  add touchpoint
     touchpointObject.type           = "payment";
     touchpointObject.source         = "square";
