@@ -102,6 +102,11 @@ async function set(path, data) {};
 async function update(path, data) {
     //  DEFINE LOCAL VARIABLES
     var ref = db.ref(path);
+
+    //  NOTIFY PROGRESS
+    console.log('FB: Writing Update to his path: ', path);
+    console.log(data);
+    
     ref.update(data, function(error){
         if(error) {
             console.log(error);
@@ -117,6 +122,10 @@ async function update(path, data) {
 async function push(path, data) {
     //  DEFINE LOCAL VARIABLES
     var writePath = db.ref(path);
+
+    //  NOTIFY PROGRESS
+    console.log('FB: writing PUSH to this path', writePath);
+    console.log(data);
 
     //  return value
     return await writePath.push(data)

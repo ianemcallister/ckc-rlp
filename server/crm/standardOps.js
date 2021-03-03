@@ -66,7 +66,7 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
     };
     
     //  NOTIFY PROGESS
-    console.log('customer Id', CKCcustomerId);
+    //console.log('customer Id', CKCcustomerId);
 
     //  add touchpoint
     touchpointObject.type           = "payment";
@@ -178,7 +178,7 @@ async function RecordTouchpoint(touchObject) {
 
     try {
         if(type == 'payment' && source == "square") {
-            return await Firebase.write.batch(_buildSquarePaymentWriteBatch(id));
+            return await _buildSquarePaymentWriteBatch(id)
         } else if(type == 'payment' && source == "shopify") {
             return 200;
         } else if(type == 'payment' && source == "facebook") {
