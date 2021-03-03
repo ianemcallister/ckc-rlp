@@ -6,7 +6,8 @@ module.exports = (function() {
     'use strict';
     //  DEFINE DEPENDENCIES
     var webhookRoutes   = require('express').Router();
-    //var ckccrm          = require('../crm/delightcircle.js');
+    var Delightcircle   = require('../crm/delightcircle.js');
+    var CKC_StanOps     = require('../crm/standardOps.js');
 
     /*
     *   GET: /test
@@ -119,8 +120,14 @@ module.exports = (function() {
                 //console.log('enrolling this customer', customerPhones);
                 res.sendStatus(200);
             } else if(req.body.type == "payment.created") {
+                //  DEFINE LOCAL VARIABLES
+                var paymentId = req.body.data.object.payment.id;
+
                 //  NOTIFY PROGRESS
                 console.log('a payment was created');
+
+                var result = await CKC_StanOps.RecordTouchpoint({type: "payment", id: paymentId})
+
                 res.sendStatus(200);
             } else {
                 res.sendStatus(200);
@@ -129,6 +136,7 @@ module.exports = (function() {
 
         } catch (error) {
             console.log(error);
+            res.sendStatus(400);
         } 
 
     });

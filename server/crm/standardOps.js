@@ -22,6 +22,9 @@ var standOpsMod = {
     _upload: {
         jsonObject: UploadJsonObject
     },
+    Touchpoints: {
+        record: RecordTouchpoint
+    },
     SyncCustomers: {
         All: syncAllCustomers,
         Square: syncSquareCustomers,
@@ -95,6 +98,21 @@ async function DownloadSquareCustomers() {
     }
 
     //  RETURN
+};
+
+/*
+*   RECORD TOUCHPOINT
+*
+*/
+async function RecordTouchpoint(touchObject) {
+    //  DEFINE LOCAL VARIABLES
+
+    try {
+        return true;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
 };
 
 /*
