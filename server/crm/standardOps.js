@@ -123,8 +123,7 @@ async function RecordTouchpoint(touchObject) {
 
     try {
         if(type == 'payment' && source == "square") {
-            return await Firebase.write.batch(['step1', 'step2'], {"test": "data"});
-            return 200;
+            return await Firebase.write.batch(['step1', 'step2'], Square.Payments.Get(id));
         } else if(type == 'payment' && source == "shopify") {
             return 200;
         } else if(type == 'payment' && source == "facebook") {

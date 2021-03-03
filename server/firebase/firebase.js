@@ -30,7 +30,7 @@ var db = admin.database();
 //  DEFINE MODULE
 var firebaseMod = {
     read: {
-
+        value: ReadValue
     },
     write: {
         set: set,
@@ -40,6 +40,22 @@ var firebaseMod = {
         batch: batch
     },
     test: test
+};
+
+/*
+*   ReadValue
+*
+*/
+async function ReadValue(path) {
+    //  DEFINEL LOCAL VARIABLES
+    var ref = db.ref(path);
+    ref.on("value", function(snapshot) {
+        //console.log(snapshot.val());
+        return snapshot.val();
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+        return errorObject;
+    });
 };
 
 //  SET
@@ -79,9 +95,9 @@ async function batch(steps, data) {
     //  DEFINE LOCAL VARIABLES
     //  NOTIFY PROGESS
     console.log("batch got this data"); console.log(steps); console.log(data);
-    
+
     //  RETURN
-    return true;
+    return 200;
 };
 
 //  TEST FUNCTION

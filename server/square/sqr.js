@@ -3,6 +3,12 @@
 // DECLARE DEPENDENCIES 
 const { Client, Environment } = require('square');
 
+//  INITIALIZE CLIENT
+const client = new Client({
+  environment: Environment.Production,
+  accessToken: process.env.CKC_SQR_APP_TKN,
+});
+
 //  DEFINE MODULE
 var sqr = {
   CollectCustomerByLoyalty: CollectCustomerByLoyalty,
@@ -10,14 +16,12 @@ var sqr = {
   list: {
     customers: ListCustomers
   },
+  Payments: {
+    Get: GetPayment
+  },
   test: test
 };
 
-//  INITIALIZE CLIENT
-const client = new Client({
-    environment: Environment.Production,
-    accessToken: process.env.CKC_SQR_APP_TKN,
-});
 
 /*
 *   LIST CUSTOMERS
@@ -48,6 +52,26 @@ async function ListCustomers(cursor, sortField, sortOrder) {
       return result;
     }
   //  HANDLE ERRORS
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+/*
+*   GET PAYMENT
+*
+*   @PARAM(id)
+*   @RETURN(paymentObject)
+*/
+async function GetPayment(id) {
+  //  DEFINE LOCAL VARIABLES
+  const paymentId = 'payment_id0';
+  //  EXECUTE ASYNC WORK
+  try {
+    //  DEFINE LOCAL VARIABLES
+    const { result, ...httpResponse } = await paymentId.getPayment(id);
+    return result;
   } catch (error) {
     console.log(error);
     return error;
