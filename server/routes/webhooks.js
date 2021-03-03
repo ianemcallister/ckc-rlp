@@ -116,7 +116,7 @@ module.exports = (function() {
                 //customerPhones.push('+15034513575');    //  REMOVE THIS LATER
                 //var result = await ckccrm.EnrollReferalCustomer(req.body.data.id, customerPhones); 
                 //console.log(result);
-                console.log('enrolling this customer', customerPhones);
+                //console.log('enrolling this customer', customerPhones);
                 res.sendStatus(200);
             } else if(req.body.type == "payment.created") {
                 //  NOTIFY PROGRESS
