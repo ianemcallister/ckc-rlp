@@ -23,7 +23,7 @@ var standOpsMod = {
         jsonObject: UploadJsonObject
     },
     Touchpoints: {
-        record: RecordTouchpoint
+        Record: RecordTouchpoint
     },
     SyncCustomers: {
         All: syncAllCustomers,
