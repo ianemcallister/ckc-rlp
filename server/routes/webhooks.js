@@ -109,11 +109,18 @@ module.exports = (function() {
             
             // work through various options
             if(req.body.type == "loyalty.account.created") {
+                //  NOTIFY PROGRESS
+                console.log('A loyalty account was created');
+
                 //var customerPhones = ckccrm.extractPhone(req.body.data.object.loyalty_account.mappings);
                 //customerPhones.push('+15034513575');    //  REMOVE THIS LATER
                 //var result = await ckccrm.EnrollReferalCustomer(req.body.data.id, customerPhones); 
                 //console.log(result);
                 console.log('enrolling this customer', customerPhones);
+                res.sendStatus(200);
+            } else if(req.body.type == "payment.created") {
+                //  NOTIFY PROGRESS
+                console.log('a payment was created');
                 res.sendStatus(200);
             } else {
                 res.sendStatus(200);
