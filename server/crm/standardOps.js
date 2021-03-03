@@ -60,10 +60,7 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
     var touchpointReadPath = path.join(__dirname, '..', 'models/touchpoint_schema.json');
     var touchPointFile = fs.readFileSync(touchpointReadPath, 'utf8');
     var touchpointObject = JSON.parse(touchPointFile);
-    var returnObject = { 
-        steps: [], 
-        data: await Square.Payments.Get(paymentId)
-    };
+    var paymentRecord = await Square.Payments.Get(paymentId);
     
     //  NOTIFY PROGESS
     //console.log('customer Id', CKCcustomerId);
@@ -72,10 +69,10 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
     touchpointObject.type           = "payment";
     touchpointObject.source         = "square";
     touchpointObject.id             = paymentId;
-    touchpointObject.customer_id    = await Firebase.read.idByChild('/Customers', 'SquareCustomerID', returnObject.data.customer_id);
-    touchpointObject.created_at     = returnObject.data.created_at;
-    touchpointObject.updated_at     = returnObject.data.updated_at;
-    touchpointObject.value          = returnObject.data.amount_money.amount;
+    touchpointObject.customer_id    = await Firebase.read.idByChild('/Customers', 'SquareCustomerID', paymentRecord.payment.customer_id);
+    touchpointObject.created_at     = paymentRecord.payment.created_at;
+    touchpointObject.updated_at     = paymentRecord.payment.updated_at;
+    touchpointObject.value          = paymentRecord.payment.amount_money.amount;
     await Firebase.write.push('/Touchpoints', touchpointObject);
 
     //  update customer
