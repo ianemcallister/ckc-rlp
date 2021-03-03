@@ -103,10 +103,15 @@ async function DownloadSquareCustomers() {
 /*
 *   RECORD TOUCHPOINT
 *
+*   @PARAM(touchObject) - Ojbect
+*   { type: "payment" || "post", id: "some_string_id", "source": "square" || "shopify" || "facebook" }
 */
 async function RecordTouchpoint(touchObject) {
     //  DEFINE LOCAL VARIABLES
-
+    var type = touchObject.type;
+    var source = touchObject.source;
+    var id = touchObject.id;
+     
     //  NOTIFY PROGRESS
     console.log('RecordTouchpoint: received this touch object');
     console.log(touchObject);
@@ -117,7 +122,19 @@ async function RecordTouchpoint(touchObject) {
     //4. Write Firebase Transaction (a. Touchpoint, Customer, Reporting)
 
     try {
-        return await Firebase.write.transaction("path", {"test": "data"});
+        if(type == 'payment' && source == "square") {
+            return await Firebase.write.batch(['step1', 'step2'], {"test": "data"});
+            return 200;
+        } else if(type == 'payment' && source == "shopify") {
+            return 200;
+        } else if(type == 'payment' && source == "facebook") {
+            return 200;
+        } else if(type == 'post' && source == "facebook") {
+            return 200;
+        } else {
+            return 400;
+        }
+        
     } catch (error) {
         console.log(error);
         return error;

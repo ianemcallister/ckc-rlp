@@ -126,9 +126,9 @@ module.exports = (function() {
                 //  NOTIFY PROGRESS
                 console.log('a payment was created');
 
-                var result = await CKC_StanOps.Touchpoints.Record({type: "payment", id: paymentId})
+                var result = await CKC_StanOps.Touchpoints.Record({type: "payment", id: paymentId, source: "square"})
 
-                res.sendStatus(200);
+                res.sendStatus(result);
             } else {
                 res.sendStatus(200);
             }

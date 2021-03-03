@@ -36,7 +36,8 @@ var firebaseMod = {
         set: set,
         update: update,
         push: push,
-        transaction: transaction
+        transaction: transaction,
+        batch: batch
     },
     test: test
 };
@@ -62,6 +63,22 @@ async function transaction(path, data) {
     //  NOTIFY PRGRESS
     console.log('the Transaction Method received:', path);
     console.log(data);
+
+    //  RETURN
+    return true;
+};
+
+/*
+*  BATCH
+*
+*   @PARAM(steps) - Array
+*   @PARAM(data) - Ojbect
+*   @RETURN(result) - boolean
+*/
+async function batch(steps, data) {
+    //  DEFINE LOCAL VARIABLES
+    //  NOTIFY PROGESS
+    console.log("batch got this data"); console.log(steps); console.log(data);
     
     //  RETURN
     return true;
