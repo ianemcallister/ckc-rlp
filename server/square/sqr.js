@@ -66,12 +66,12 @@ async function ListCustomers(cursor, sortField, sortOrder) {
 */
 async function GetPayment(id) {
   //  DEFINE LOCAL VARIABLES
-  const paymentId = 'payment_id0';
+  const paymentId = client.paymentsApi;
   //  EXECUTE ASYNC WORK
   try {
     //  DEFINE LOCAL VARIABLES
     const { result, ...httpResponse } = await paymentId.getPayment(id);
-    return result;
+    return result
   } catch (error) {
     console.log(error);
     return error;
