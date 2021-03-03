@@ -7,6 +7,9 @@ const { Client, Environment } = require('square');
 var sqr = {
   CollectCustomerByLoyalty: CollectCustomerByLoyalty,
   listLocations: listLocations,
+  list: {
+    customers: ListCustomers
+  },
   test: test
 };
 
@@ -15,6 +18,41 @@ const client = new Client({
     environment: Environment.Production,
     accessToken: process.env.CKC_SQR_APP_TKN,
 });
+
+/*
+*   LIST CUSTOMERS
+* 
+*   @PARAMS()
+*   @RETURN(allCustomers)
+*/
+async function ListCustomers(cursor, sortField, sortOrder) {
+  //  DEFINE LOCAL VARIABLES
+  var sortField = "DEFAULT";
+  var sortOrder = "ASC";
+  var SqCustomers = client.customersApi;
+
+  //  EXECUTE ASYNC WORK
+  try {
+    const { result, ...httpResponse } = await SqCustomers.listCustomers(cursor, sortField, sortOrder);
+    
+    //  NOTIFY PROGRESS
+    process.stdout.write(`I`);
+
+    //  HANDLE PAGINATION
+    if(result.cursor != undefined || "" ) {
+      var customersList = await ListCustomers(result.cursor, sortField, sortOrder);
+      
+      return customersList;
+    } else {
+      
+      return result;
+    }
+  //  HANDLE ERRORS
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 /*
 *   CollectCustomerByLoyalty

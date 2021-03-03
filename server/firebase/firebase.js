@@ -25,11 +25,39 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://ckccrm-default-rtdb.firebaseio.com"
 });
+var db = admin.database();
 
 //  DEFINE MODULE
 var firebaseMod = {
+    read: {
+
+    },
+    write: {
+        set: set,
+        update: update,
+        push: push,
+        transaction: transaction
+    },
     test: test
 };
+
+//  SET
+async function set(path, data) {};
+
+//  UPDATE
+async function update(path, data) {};
+
+//  PUSH
+async function push(path, data) {
+    //  DEFINE LOCAL VARIABLES
+    var writePath = db.ref(path);
+
+    //  return value
+    return await writePath.push(data)
+};
+
+//  TRANSACTION
+async function transaction(path, data) {};
 
 //  TEST FUNCTION
 function test() {
