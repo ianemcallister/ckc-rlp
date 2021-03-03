@@ -6,7 +6,7 @@ module.exports = (function() {
     'use strict';
     //  DEFINE DEPENDENCIES
     var webhookRoutes   = require('express').Router();
-    var Delightcircle   = require('../crm/delightcircle.js');
+    var Delightcircle   = require('../crm/delightCircle.js');
     var CKC_StanOps     = require('../crm/standardOps.js');
 
     /*

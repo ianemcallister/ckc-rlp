@@ -107,6 +107,10 @@ async function DownloadSquareCustomers() {
 async function RecordTouchpoint(touchObject) {
     //  DEFINE LOCAL VARIABLES
 
+    //  NOTIFY PROGRESS
+    console.log('RecordTouchpoint: received this touch object');
+    console.log(touchObject);
+
     try {
         return true;
     } catch (error) {
