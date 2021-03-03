@@ -64,7 +64,6 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
         steps: [], 
         data: await Square.Payments.Get(paymentId)
     };
-    var CKCcustomerId = await Firebase.read.idByChild('Customers', 'SquareCustomerID', returnObject.data.customer_id);
     
     //  NOTIFY PROGESS
     console.log('customer Id', CKCcustomerId);
@@ -73,7 +72,7 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
     touchpointObject.type           = "payment";
     touchpointObject.source         = "square";
     touchpointObject.id             = paymentId;
-    touchpointObject.customer_id    = CKCcustomerId;
+    touchpointObject.customer_id    = await Firebase.read.idByChild('/Customers', 'SquareCustomerID', returnObject.data.customer_id);
     touchpointObject.created_at     = returnObject.data.created_at;
     touchpointObject.updated_at     = returnObject.data.updated_at;
     touchpointObject.value          = returnObject.data.amount_money.amount;

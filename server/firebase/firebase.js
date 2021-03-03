@@ -70,11 +70,23 @@ async function ReadIdByChild(collection, field, value) {
     //  DEFINE LOCAL VARIABLES
     var ref = db.ref(collection);
     ref.orderByChild(field).equalTo(value).on("value", function(querySnapshot) {
-        querySnapshot.forEach(function(snapshot) {
-            console.log('found this key', snapshot.key);
-            return(snapshot.key);
-        });
         
+        if(querySnapshot.numChildren() === 1) {
+            querySnapshot.forEach(function(snapshot) {
+                console.log('found this key', snapshot.key);
+                return(snapshot.key);
+            });
+        } else {
+            querySnapshot.forEach(function(snapshot) {
+                console.log('found this key', snapshot.key);
+                //return(snapshot.key);
+            });
+        }
+        
+    
+    }, function (error) {
+        console.log(error);
+        return(error);
     });
 };
 
