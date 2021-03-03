@@ -26,11 +26,10 @@ var Firebase          = require('./firebase/firebase.js');
 //firebase.test();
 //till.alertTest();
 //shopify.discountCodes.create('testing12345');
-/*async function result() {
-    var result = await Standardops._download.SquareCustomers();
-    //var result = await delightCirlce.CollectEnrollmentData("JDKYHBWT1D4F8MFH63DBMEN8Y4","1-212-555-4240"); 
-    console.log(result);
+async function result() {
+    var customerId = await Firebase.read.idByChild('/Customers', 'FirstName', 'Gwendolyne');
+    console.log(customerId)
 }
-result();*/
+result();
 
 //square.listLocations();
