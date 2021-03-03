@@ -7,6 +7,7 @@
 var fs 		          = require('fs');
 var path 	          = require('path');
 var csvToJson         = require('convert-csv-to-json');
+var moment            = require('moment-timezone');
 var Square            = require('../square/sqr.js');
 var Shopify           = require('../shopify/shopify.js');
 var Firebase          = require('../firebase/firebase.js');
@@ -22,6 +23,9 @@ var standOpsMod = {
     _upload: {
         jsonObject: UploadJsonObject
     },
+    _build: {
+        SquarePaymentWriteBatch: _buildSquarePaymentWriteBatch
+    },
     Touchpoints: {
         Record: RecordTouchpoint
     },
@@ -33,6 +37,52 @@ var standOpsMod = {
         IG: syncIGCustomers
     },
     test: test
+};
+
+//
+function _incrimentLTV(oldValue, adding) { return (parseInt(oldValue) + parseInt(adding)).toString; };
+function _formatDate(format, value) { return moment(value)('America/Los_Angeles').format(format); };
+function _incrimentTC(oldValue) { return (parseInt(oldValue) + 1).toString; };
+
+
+/*
+*   PRIVATE
+*   BUILD SUQARE PAYMENT WRITE BATCH
+*
+*   @PARAM("paymentId") - String
+*   @RETURN({steps: [], data:{}})
+*/
+async function _buildSquarePaymentWriteBatch(paymentId) {
+    //  DEFINE LOCAL VARIABLES
+    var touchpointReadPath = path.join(__dirname, '..', 'models/touchpoint_schema.json');
+    var touchPointFile = fs.readFileSync(touchpointReadPath, 'utf8');
+    var touchpointObject = JSON.parse(touchPointFile);
+    var returnObject = { 
+        steps: [], 
+        data: await Square.Payments.Get(paymentId)
+    };
+    var CKCcustomerId = await Firebase.read.idByChild('Customers', 'SquareCustomerID', returnObject.data.customer_id);
+    
+    //  add touchpoint
+    touchpointObject.type           = "payment";
+    touchpointObject.source         = "square";
+    touchpointObject.id             = paymentId;
+    touchpointObject.customer_id    = CKCcustomerId;
+    touchpointObject.created_at     = returnObject.data.created_at;
+    touchpointObject.updated_at     = returnObject.data.updated_at;
+    touchpointObject.value          = returnObject.data.amount_money.amount;
+    await Firebase.write.push('/Touchpoints', touchpointObject);
+
+    //  update customer
+    var customerRecord = await Firebase.read.value('/Customers/' + CKCcustomerId);
+    await Firebase.write.update('/Customers/' + CKCcustomerId, {
+        "LTV": _incrimentLTV(customerRecord.LTV, returnObject.data.amount_money.amount),
+        "LastVisit": _formatDate("YYYY-MM-DD", returnObject.data.created_at),
+        "TransactionCount": _incrimentTC(customerRecord.TransactionCount)
+    });
+    //TransactionCount
+    //LTV
+    //LastVisit
 };
 
 /*
@@ -123,7 +173,7 @@ async function RecordTouchpoint(touchObject) {
 
     try {
         if(type == 'payment' && source == "square") {
-            return await Firebase.write.batch(['step1', 'step2'], Square.Payments.Get(id));
+            return await Firebase.write.batch(_buildSquarePaymentWriteBatch(id));
         } else if(type == 'payment' && source == "shopify") {
             return 200;
         } else if(type == 'payment' && source == "facebook") {

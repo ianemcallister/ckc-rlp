@@ -30,7 +30,8 @@ var db = admin.database();
 //  DEFINE MODULE
 var firebaseMod = {
     read: {
-        value: ReadValue
+        value: ReadValue,
+        idByChild: ReadIdByChild
     },
     write: {
         set: set,
@@ -58,11 +59,40 @@ async function ReadValue(path) {
     });
 };
 
+/*
+*   ReadIdByChild
+*
+*/
+async function ReadIdByChild(collection, field, value) {
+    //  DEFINE LOCAL VARIABLES
+    var ref = db.ref(collection);
+    ref.orderByChild(field).equalTo(value).on("value", function(snapshop) {
+        return(snapshot.key);
+    });
+};
+
 //  SET
 async function set(path, data) {};
 
-//  UPDATE
-async function update(path, data) {};
+/*
+*   UPDATE
+*
+*   @PARAM(path, data)
+*   @RETURN()
+*/  
+async function update(path, data) {
+    //  DEFINE LOCAL VARIABLES
+    var ref = db.ref(path);
+    ref.update(data, function(error){
+        if(error) {
+            console.log(error);
+            return error;
+        } else {
+            console.log('successful Firebase update');
+            return;
+        }
+    });
+};
 
 //  PUSH
 async function push(path, data) {

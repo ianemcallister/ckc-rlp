@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "firebase": "^8.2.9",
     "firebase-admin": "^9.5.0",
+    "moment-timezone": "^0.5.33",
     "request-json": "^0.6.5",
     "shopify-api-node": "^3.6.5",
     "square": "^8.1.1",
