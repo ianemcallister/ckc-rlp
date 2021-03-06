@@ -17,10 +17,18 @@ var sqr = {
     customers: ListCustomers
   },
   Payments: {
-    Get: GetPayment
+    Get: GetPayment,
+    List: ListPayments
   },
   Customers: {
-    Get: GetCustomer
+    Get: GetCustomer,
+    Search: SearchCustomers
+  },
+  Orders: {
+    Get: GetOrder
+  },
+  Loyalty: {
+    Get: GetLoyalty
   },
   test: test
 };
@@ -62,6 +70,25 @@ async function ListCustomers(cursor, sortField, sortOrder) {
 };
 
 /*
+*
+*
+*/
+async function GetOrder(id) {
+  //  DEFINE LOCAL VARIABLES
+  const ordersApi = client.ordersApi;
+  //  EXECUTE ASYNC WORK
+  try {
+    //  DEFINE LOCAL VARIABLES
+    const { result, ...httpResponse } = await ordersApi.retrieveOrder(id);
+    console.log('got this Order');
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+/*
 *   GET CUSTOMER
 *
 *   @PARAM(id)
@@ -91,21 +118,42 @@ async function GetCustomer(id) {
 */
 async function GetPayment(id) {
   //  DEFINE LOCAL VARIABLES
-  const paymentId = client.paymentsApi;
+  const paymentAPI = client.paymentsApi;
   //  EXECUTE ASYNC WORK
   try {
     //  DEFINE LOCAL VARIABLES
-    const { result, ...httpResponse } = await paymentId.getPayment(id);
+    const { result, ...httpResponse } = await paymentAPI.getPayment(id);
     //return result
     //  NOTIFY PROGRESS
     console.log('SQ: got this payment');
-    console.log(result);
+    console.log(result.payment);
     return result
   } catch (error) {
     console.log(error);
     return error;
   }
 };
+
+/*
+*
+*/
+async function ListPayments(beginTime, endTime) {
+  //  DEFINE LOCAL VARIABLES
+  const paymentAPI = client.paymentsApi;
+  //  EXECUTE ASYNC WORK
+  try {
+    //  DEFINE LOCAL VARIABLES
+    const { result, ...httpResponse } = await paymentAPI.listPayments(beginTime, endTime);
+    //return result
+    //  NOTIFY PROGRESS
+    console.log('SQ: got these payments');
+    console.log(result);
+    return result
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
 
 /*
 *   CollectCustomerByLoyalty
@@ -134,6 +182,26 @@ async function CollectCustomerByLoyalty(loyaltyId) {
 
 };
 
+/*
+*   RETRIVE LOYATLY ACCOUNT
+*/
+async function GetLoyalty(id) {
+  //  DEFINE LOCAL VARIABLES
+  const loyaltyApi = client.loyaltyApi;
+  
+  //  EXECTE ASYNC WORK
+  try {
+    const { result, ...httpResponse } = await loyaltyApi.retrieveLoyaltyAccount(IDBCursor);
+    // Get more response info...
+    const { statusCode, headers } = httpResponse;
+    console.log(result);
+    return result;
+  } catch (error) {
+    const errors = error.result;
+    const { statusCode, headers } = error;
+  }
+}
+
 //  listLocations
 async function listLocations() {
   //  DEFINE LOCAL VARIABLES
@@ -155,6 +223,36 @@ async function listLocations() {
 
   return 0;
 };
+
+/*
+*   SEARCH CUSTOMERS
+*/
+async function SearchCustomers() {
+  //  DEFINE LOCAL VARIABLES
+  const customersApi = client.customersApi;
+  const body = { 
+    limit: 2,
+    query: { 
+      filter: { 
+        created_at: { 
+          start_at: "2021-03-02T12:00:00-08:00", 
+          end_at: "2021-03-02T13:00:00-08:00"
+        }
+      }
+    }
+  };
+  
+
+  try {
+    const { result, ...httpResponse } = await customersApi.searchCustomers(body);
+    console.log('got these customers');
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
 
 //  TEST
 function test() { console.log('this is the square module test');}

@@ -106,7 +106,7 @@ async function update(path, data) {
     //  NOTIFY PROGRESS
     console.log('FB: Writing Update to his path: ', path);
     console.log(data);
-    
+
     ref.update(data, function(error){
         if(error) {
             console.log(error);

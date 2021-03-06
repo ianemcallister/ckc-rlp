@@ -69,7 +69,7 @@ async function _buildSquarePaymentWriteBatch(paymentId) {
     touchpointObject.type           = "payment";
     touchpointObject.source         = "square";
     touchpointObject.id             = paymentId;
-    touchpointObject.customer_id    = await Firebase.read.idByChild('/Customers', 'SquareCustomerID', paymentRecord.payment.customer_id);
+    touchpointObject.customer_id    = await Firebase.read.idByChild('/Customers', 'SquareCustomerID', paymentRecord);
     touchpointObject.created_at     = paymentRecord.payment.created_at;
     touchpointObject.updated_at     = paymentRecord.payment.updated_at;
     touchpointObject.value          = paymentRecord.payment.amount_money.amount;

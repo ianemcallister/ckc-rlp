@@ -70,17 +70,22 @@ async function POSTnewRedirect(CustomerReferalCode) {
 
 };
 
-//  CREATE DISCOUNT CODE
-async function POSTdiscountCode(CustomerReferalCode) {
+/*  
+*   CREATE DISCOUNT CODE
+*   
+*   Creates a price rule id.
+*   NOTES: Referal code price rule: 913999855784
+*
+*/
+async function POSTdiscountCode(priceRuleId, CustomerReferalCode) {
   //  DEFINE LOCAL VARIABLES
-  let priceRuleId = 913999855784;
-  let discountCodeId = '';
   let params = { "code": CustomerReferalCode };
 
   try {
-    return await shopify.discountCode.create(priceRuleId, params);
+    return await Shopify.discountCode.create(priceRuleId, params);
   } catch (error) {
     console.log(error);
+    return error;
   }
 
   //  RETURN CALL
@@ -91,22 +96,27 @@ async function GETpriceRulesList() {
   //  DEFINE LOCAL VARIABLES
   let params = { limit: 10 };
 
+  //  NOTIFY PROGRESS
+  console.log('getting price rules');
+
   try {
-    do {
+    //do {
       //  DEFINE LOCAL VARIABLES
-      var priceRules = await shopify.priceRule.list(params);
+      var priceRules = await Shopify.priceRule.list(params);
       
       //  NOTIFY PROGRESS
+      console.log('got these price rules');
       console.log(priceRules);
   
       params = priceRules.nextPageParameters;
-    } while (params !== undefined);
+      return priceRules;
+    //} while (params !== undefined);
     
   } catch (error) {
     console.error;
+    return error;
   }
 
-  return;
 };
 
 //  GET LIST OF PRODUCTS
