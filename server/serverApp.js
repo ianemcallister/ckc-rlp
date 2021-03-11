@@ -52,6 +52,16 @@ serverApp.use('/', function(req, res, next) {
 var webhookRoutes = require('./routes/webhooks');
 serverApp.use('/webhook', webhookRoutes);
 
+//	STANDARD GET
+serverApp.get('/', async function(req, res) {
+	//  DEFINE LOCAL VARIABLES
+
+	//  NOTIFY PROGRESS
+	console.log(req.query);
+
+	res.send("CKC CRM");
+})
+
 /*
 *	Opening Up the server
 */
