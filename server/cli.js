@@ -29,7 +29,8 @@ var Standardops         = require('./crm/standardOps.js');
 async function result() {
     //await Square.Customers.Get('RDX9Z4XTIZR7MRZJUXNY9HUK6I');
     //await Square.Payments.Get('tqINdxjRf0AoBuy6jPxqSCzQuaB');
-    await Square.Customers.Search();
+    await Shopify.customers.get();
+    //await Square.Customers.Search();
     //await Square.Orders.Get('ySuYm7wfar9MdV3UI5rmtHweV');
     //await Square.Loyalty.Get('');
     //await Shopify.priceRules.list();

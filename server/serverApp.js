@@ -49,18 +49,18 @@ serverApp.use('/', function(req, res, next) {
 *	To clena up the code we've moved it to externl files
 */
 //	WEBHOOK ROUTES
-var webhookRoutes = require('./routes/webhooks');
-serverApp.use('/webhook', webhookRoutes);
+//var webhookRoutes = require('./routes/webhooks');
+//serverApp.use('/webhook', webhookRoutes);
 
 //	STANDARD GET
-serverApp.get('/', async function(req, res) {
+/*serverApp.get('/', async function(req, res) {
 	//  DEFINE LOCAL VARIABLES
 
 	//  NOTIFY PROGRESS
 	console.log(req.query);
 
 	res.send("CKC CRM");
-})
+})*/
 
 /*
 *	Opening Up the server

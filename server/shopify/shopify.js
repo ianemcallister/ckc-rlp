@@ -11,6 +11,10 @@ var Shopify = require('shopify-api-node');
 var shopifyMod = {
   CollectCustomerByPhone: CollectCustomerByPhone,
   productsList: productsList,
+  customers: {
+    create: CreateCustomer,
+    get: GetCustomer
+  },
   priceRules: {
     list: GETpriceRulesList
   },
@@ -52,6 +56,22 @@ async function CollectCustomerByPhone(phoneNumber) {
     return error;
   }
   //  RETURN
+};
+
+//  CREATE A NEW CUSTOMER
+async function CreateCustomer(params) {
+  //  define local variables
+  var customerParams = {
+  };
+
+  try {
+    var customer = await Shopify.customer.create(customerParams)
+    console.log('got this response', customer);
+    return customer;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }  
 };
 
 //  CREATE NEW REDIRECT
@@ -140,6 +160,32 @@ async function productsList() {
   }
 
   return;
+};
+
+//  GET CUSTOMER
+async function GetCustomer() {
+  //  DEFINE LOCAL VARIABLES
+  let params = { id: [5060336648360] };
+
+  //  NOTIFY PROGRESS
+  console.log('getting a customer ');
+
+  try {
+    //do {
+      //  DEFINE LOCAL VARIABLES
+      var aCustomer = await Shopify.customer.get(5061407932584);
+      
+      //  NOTIFY PROGRESS
+      console.log('got this customer');
+      console.log(aCustomer);
+
+      return aCustomer;
+    //} while (params !== undefined);
+    
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
 
 
